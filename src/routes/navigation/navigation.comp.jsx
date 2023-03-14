@@ -11,10 +11,11 @@ const Navigation = () => {
     <Fragment>
 
       <div className="top-nav">
-        <div class="logo__container"><Link to="/"><CrwnLogo className="logo" /></Link></div>
-        <nav class="nav">
+        <div className="logo__container"><Link to="/"><CrwnLogo className="logo" alt="CRWN Clothing logo" title="CRWN Clothing" /></Link></div>
+        <nav className="nav">
           <ul>
             <li><Link to="/shop">SHOP</Link></li>
+            <li><Link to="/sign-in">SIGN-IN</Link></li>
           </ul>
         </nav>
       </div>
