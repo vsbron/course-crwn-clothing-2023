@@ -43,7 +43,7 @@ const SignUpForm = () => {
 
     } catch (err) {
       if ( err.code === "auth/email-already-in-use") {
-        console.log( "Cannot create user, email already in use")
+        console.log("Cannot create user, email already in use")
       } else console.log( err.message );
     }
   }
@@ -55,7 +55,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up__container">
+    <div className="form__container">
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
 
@@ -66,7 +66,7 @@ const SignUpForm = () => {
         <FormInput label="Password:" type="password" required onChange={handlerChange} name="password" value={password} />
         <FormInput label="Confirm Password:" type="password" required onChange={handlerChange} name="confirmPassword" value={confirmPassword} />
 
-        <Button children="Sign Up" buttonType="google" type="submit" />
+        <Button buttonContent="Sign Up" type="submit" />
         
       </form>
 
