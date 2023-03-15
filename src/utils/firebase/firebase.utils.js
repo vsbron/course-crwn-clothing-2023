@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 // Import the functions that allow to work with Firestore database
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -69,3 +69,6 @@ export const signInUserWithEmailAndPassword = async ( email, password ) => {
   if (!email || !password ) return;   // Guard clause
   return signInWithEmailAndPassword ( auth, email, password )
 }
+
+// Sign out method
+export const signOutUser = async () => await signOut(auth);

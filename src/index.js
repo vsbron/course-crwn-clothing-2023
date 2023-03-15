@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';                                // Component for React
+import ReactDOM from 'react-dom';                         // Component for working with DOM
+import { BrowserRouter } from "react-router-dom";         // Component for using React Router
 
-import './index.scss';
+import App from './App';                                  // App.js that contains the routes
+import { UserProvider } from './contexts/user.context';   // React context component with the User data
 
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.scss';                                    // Main style file
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-reportWebVitals();
