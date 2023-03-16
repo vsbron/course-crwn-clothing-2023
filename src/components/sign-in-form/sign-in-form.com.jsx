@@ -1,11 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import FormInput from "../form-input/form-input.comp";
 import Button from "../button/button.comp";
 
-import { UserContext } from "../../contexts/user.context";
-
-import { signInWithGooglePopup, createUserDocumentFromAuth, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 import "./sign-in-form.style.scss";
 
@@ -21,13 +19,11 @@ const SignInForm = () => {
   const [ formFields, setFormFiellds ] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext)
+  // Method for resetting all fields back to empty
+  const resetFormFields = () => setFormFiellds(defaultFormFields);
   
-
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
-    setCurrentUser( user );   // Set the current user inside the context
+    await signInWithGooglePopup();   // Get the user data from authentication
   }
 
   // Handler method for form submit
@@ -36,8 +32,8 @@ const SignInForm = () => {
 
     try {
       // See if we authenticated user with email and password
-      const { user } = await signInUserWithEmailAndPassword( email, password );
-      setCurrentUser( user );   // Set the current user inside the context
+      await signInUserWithEmailAndPassword( email, password );
+      resetFormFields();
 
     } catch (err) {
       switch (err.code) {
