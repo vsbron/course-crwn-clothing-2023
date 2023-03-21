@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 // Import the functions that allow to work with Firestore database
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,6 +28,36 @@ export const signInWithGooglePopup = () => signInWithPopup( auth, googleProvider
 
 // Getting the Firestore database
 export const db = getFirestore();
+
+// Method for creating the database in Firestore
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = collection( db, collectionKey);   // Creating reference to the collection in the Firestore
+  const batch = writeBatch(db);                           // Getting the batch instance that we need to fill with set events before firing to the db
+
+  objectsToAdd.forEach( (object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase() );   // Getting the document reference with the created collection and the title from the array
+    batch.set( docRef, object );                                      // Adding the setter of the collection to the batch
+  } )
+
+  await batch.commit();   // Firing the batch
+  console.log("Done!");   // Success log
+}
+
+// Function to get the collection items from the db (changed frequently by Google)
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection( db, "categories" );   // Getting the collection reference
+  const q = query(collectionRef);                         // Generating a query for the collection
+
+  const querySnapshot = await getDocs(q);                 // Getting the snapshot of documents that were fetched from collection
+  const categoryMap = querySnapshot.docs.reduce(          // Going through all of the documents using .reduce() method
+    ( acc, docSnapshot ) => {
+      const { title, items } = docSnapshot.data();        // Destructuring the title and the items from each snapshot
+      acc[title.toLowerCase()] = items;                   // Adding to the acc array with title works as a key, and items array work as a value
+      return acc;                                         // Returning the acc for the next iteration
+    }, {}
+  );
+  return categoryMap;   // Returning the final array as categoryMap
+}
 
 // Creating an entry in the database from the logged user
 export const createUserDocumentFromAuth = async ( userAuth, additionalInfo = {} ) => {
