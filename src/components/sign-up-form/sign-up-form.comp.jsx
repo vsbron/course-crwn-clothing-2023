@@ -5,7 +5,7 @@ import Button from "../button/button.comp";
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
-import "./sign-up-form.style.scss";
+import {FormContainer} from "../sign-in-form/sign-in-form.style";
 
 // Initializing the default (empty) input fields values
 const defaultFormFields = {
@@ -55,7 +55,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="form__container">
+    <FormContainer>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
 
@@ -70,7 +70,7 @@ const SignUpForm = () => {
         
       </form>
 
-    </div>
+    </FormContainer>
   )
 }
 
