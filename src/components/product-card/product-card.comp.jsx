@@ -3,7 +3,7 @@ import { CartContext } from "../../contexts/cart.context";
 
 import Button from "../button/button.comp";
 
-import "./product-card.style.scss";
+import { ProductCardContainer, ProductCardImage, ProductCardFooter, ProductCardName, ProductCardPrice } from "./product-card.style";
 
 const ProductCard =  ( {product} )  => {
 
@@ -14,14 +14,14 @@ const ProductCard =  ( {product} )  => {
   const addProductToCart = () => addItemToCart( product )
 
   return (
-    <div className="product-card__container">
-      <img src={imageUrl} className="product-card__image" alt={`${name}`} />
-      <div className="product-card__footer">
-        <span className="product-card__name">{name}</span>
-        <span className="product-card__price">${price}</span>
-      </div>
+    <ProductCardContainer>
+      <ProductCardImage src={imageUrl} alt={`${name}`} />
+      <ProductCardFooter>
+        <ProductCardName>{name}</ProductCardName>
+        <ProductCardPrice>${price}</ProductCardPrice>
+      </ProductCardFooter>
       <Button buttonType="inverted" buttonContent="Add to cart" type="button" onClick={ addProductToCart }></Button>
-    </div>
+    </ProductCardContainer>
   )
 
 }
