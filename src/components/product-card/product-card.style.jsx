@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { BaseButton, GoogleSignInButton, InvertedButton } from "../button/button.style";
+
 export const ProductCardContainer = styled.div`
   width: 100%;
   display: flex;
@@ -8,7 +10,7 @@ export const ProductCardContainer = styled.div`
   align-items: center;
   position: relative;
 
-  button {
+  ${BaseButton}, ${GoogleSignInButton}, ${InvertedButton} {
     width: 80%;
     opacity: .7;
     position: absolute;
@@ -32,7 +34,6 @@ export const ProductCardImage = styled.img`
   }
 `
 
-
 export const ProductCardFooter = styled.div`
   width: 100%;
   height: 5%;
@@ -42,10 +43,8 @@ export const ProductCardFooter = styled.div`
 `
 
 export const ProductCardName = styled.span`
-  width: 90%;
+  flex: 1 0 auto;
   margin-bottom: 15px
 `
 
-export const ProductCardPrice = styled.span`
-  width: 10%
-`
+export const ProductCardPrice = styled.span``
