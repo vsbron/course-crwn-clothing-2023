@@ -1,4 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useReducer } from "react";
+
+import { createAction } from "../utils/reducer/reducer.utils";
 
 // Helper function for adding the new product into cart
 const addCartItem = ( cartItems, productToAdd ) => {
@@ -51,43 +53,76 @@ export const CartContext = createContext({
   totalPrice: 0,
 })
 
+export const CART_ACTION_TYPES = {
+  SET_CART_ITEM: "SET_CART_ITEM",
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
+}
+
+// Initial state of the variables we want to track with reducer
+const INITIAL_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+  cartCount: 0,
+  totalPrice: 0,
+};
+
+// Creating the reducer which takes the state and the action
+const cartReducer = ( state, action ) => {
+  const { type, payload } = action;
+
+  switch( type ) {
+    case CART_ACTION_TYPES.SET_CART_ITEM: 
+      return {
+        ...state,
+        ...payload
+      }
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return { 
+        ...state,
+        isCartOpen: payload
+      }
+    default: throw new Error(`Unhandled type of ${type} in cartReducer`)
+  }
+}
+
 // Creating provider for the Context
 export const CartProvider = ( {children} ) => {
 
-  // Initiating the value with attributes from useState
-  const [ isCartOpen, setIsCartOpen ] = useState(false);
-  const [ cartItems, setCartItems] = useState([]);
-  const [ cartCount, setCartCount ] = useState(0);
-  const [ totalPrice, setTotalPrice ] = useState(0);
+  const [ { cartItems, isCartOpen, cartCount, totalPrice }, dispatch ] = useReducer(cartReducer, INITIAL_STATE);   // Initializing useReducer
 
-  //  useEffect hook to count the total number [quantities] of the items inside the cart
-  useEffect( () => {
-    const newCartCount = cartItems.reduce( (totalQuantity, cartItem ) => totalQuantity + cartItem.quantity, 0 );                // Using reduce method to count all quantites
-    setCartCount( newCartCount );                                                                                               // Setting the newCartCount
-  }, [cartItems] );
-
-  //  useEffect hook to count the total price of all items in the cart
-  useEffect( () => {
-    const newTotalPrice = cartItems.reduce( (totalPrice, cartItem ) => totalPrice + cartItem.price * cartItem.quantity, 0 );    // Using reduce method to count all prices
-    setTotalPrice( newTotalPrice );                                                                                             // Setting the newTotalPrice
-  }, [cartItems] );
+  const updateCartItemsReducer = (newCartItems) =>{
+    const newCartCount = newCartItems.reduce( (totalQuantity, cartItem ) => totalQuantity + cartItem.quantity, 0 );                // Using reduce method to count all quantites
+    const newTotalPrice = newCartItems.reduce( (totalPrice, cartItem ) => totalPrice + cartItem.price * cartItem.quantity, 0 );    // Using reduce method to count all prices
+    
+    dispatch(                         // Updating the state in reducer
+      createAction( CART_ACTION_TYPES.SET_CART_ITEM, {
+        cartItems: newCartItems,      // Updaing the Cart items
+        totalPrice: newTotalPrice,    // Updaing the Total price
+        cartCount: newCartCount       // Updaing the Cart count
+      }))
+  }
   
   // Method for updating the cart with new product
   const addItemToCart = ( productToAdd ) => {
     const newCartItems = addCartItem ( cartItems, productToAdd );   // Adding the product to the array
-    setCartItems(newCartItems);                                     // Setting the state with the new array
+    updateCartItemsReducer(newCartItems);                           // Passing the new cart items to the Reducer
   }
 
   // Method for removing the product from cartItems
   const removeItemFromCart = ( cartItemToRemove ) => {
     const newCartItems = removeCartItem ( cartItems, cartItemToRemove );  // Removing the product from the array
-    setCartItems(newCartItems);                                           // Setting the state with the new array
+    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
   }
 
   // Method for removing the product from cartItems entirely
   const clearItemFromCart = ( cartItemToClear ) => {
-    const newCartItems = clearCartItem ( cartItems, cartItemToClear );   // Clearing the product from the array
-    setCartItems(newCartItems);                                           // Setting the state with the new array
+    const newCartItems = clearCartItem ( cartItems, cartItemToClear );    // Clearing the product from the array
+    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
+  }
+
+  // Method for toggling the cart window
+  const setIsCartOpen = (boolean) => {
+    dispatch( createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN ,boolean));
   }
 
   // Setting the value variables
