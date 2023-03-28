@@ -10,10 +10,12 @@ export const UserContext = createContext({
   setCurrentUser: () => null,   // Empty (default) function
 });
 
+// Setting the action types string for the reducer
 export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER"
 }
 
+// Setting the initial state for the current user (null)
 const INITIAL_STATE = {
   currentUser: null
 };
@@ -43,14 +45,14 @@ export const UserProvider = ( { children } ) => {
   const value = { currentUser, setCurrentUser };    // Passing the state variables to the value that goes to the context provider
 
   useEffect( () => {
+    // Initiate the listener that will listen constantly for auth state change (Log in / Log out)
     const unsubscribe = onAuthStateChangedListener((user) => {
-      if(user) {
-        createUserDocumentFromAuth(user);   // Create the user document
+      if (user) {
+        createUserDocumentFromAuth(user);   // Create the user document if user logged in
       }
-      setCurrentUser(user);
+      setCurrentUser(user);                 // If not, set the new user (logged in or null)
     } );
-
-    return unsubscribe
+    return unsubscribe                      // Unsubscribe the listener once the component unmounts
   }, [] )
 
   // Returning the context provider with the value that will be stored in the context
