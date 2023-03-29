@@ -14,6 +14,7 @@ import { LogoContainer, NavigationContainer, NavLinks } from "./navigation.style
 
 const Navigation = () => {
 
+  // Destructuring 2 variables from contexts -> The current user data, and a boolean for openeed cart menu
   const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
 

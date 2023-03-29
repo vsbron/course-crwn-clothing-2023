@@ -22,4 +22,5 @@ export const CartIconCount = styled.span`
   font-size: 10px;
   font-weight: 700;
   bottom: 12px;
+  pointer-events: none;
 `

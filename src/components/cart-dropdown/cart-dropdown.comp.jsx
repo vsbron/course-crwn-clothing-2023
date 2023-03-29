@@ -10,26 +10,25 @@ import { CartDropdownContainer, CartDropdownItems, EmptyMessage } from "./cart-d
 
 const CartDropdown = () => {
 
-  // Getting the current cartItems array
-  const { cartItems } = useContext(CartContext);              // getting the CartContext
-  const navigate = useNavigate();                             // useNavigate hook for linking the button
+  // Getting the current cartItems array from the Context
+  const { cartItems } = useContext(CartContext);
 
-  const goToCheckoutHandler = () => navigate("/checkout");    // Handler function with the url
+  const navigate = useNavigate();                             // useNavigate hook for linking the button
+  const goToCheckoutHandler = () => navigate("/checkout");    // Button onClick handler that provides the link
 
   return (
     <CartDropdownContainer>
+
       <CartDropdownItems>
-        {
-          cartItems.length ? (
-            cartItems.map( item => <CartItem key={ item.id } cartItem={ item } /> )) : <EmptyMessage>Your cart is empty</EmptyMessage>
-        }
-        
+        { cartItems.length
+          ? ( cartItems.map( item => <CartItem key={ item.id } cartItem={ item } /> ))
+          : <EmptyMessage>Your cart is empty</EmptyMessage> }  
       </CartDropdownItems>
+      
       <Button type="button" buttonContent="GO TO CHECKOUT" onClick={ goToCheckoutHandler }></Button>
 
     </CartDropdownContainer>
   )
-
 }
 
 export default CartDropdown;

@@ -4,10 +4,11 @@ import { DirectoryItemContainer, DirectoryItemBackground, DirectoryItemBody } fr
 
 const DirectoryItem = ( {category} ) => {
 
-  const { title, imageUrl, route } = category;
-  const navigate = useNavigate();
+  const { title, imageUrl, route } = category;        // Destructuring the category we got from DirectoryItem calling
 
-  const onNavigateHandler = () => navigate(route);
+  const navigate = useNavigate();                     // useNavigate hook for linking the tile
+  const onNavigateHandler = () => navigate(route);    // Button onClick handler that provides the link to the route we got from the category object
+
 
   return (
     <DirectoryItemContainer onClick={onNavigateHandler}>

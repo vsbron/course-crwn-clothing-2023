@@ -5,6 +5,7 @@ import { CheckoutItemContainer, CheckoutItemImage, CheckoutItemName, CheckoutIte
 
 const CheckoutItem = ( {cartItem} ) => {
 
+  // Getting all the values from the cartItem and the cart methods fron the Cart Context
   const { name, imageUrl, price, quantity } = cartItem;
   const { addItemToCart, removeItemFromCart, clearItemFromCart } = useContext(CartContext);
 

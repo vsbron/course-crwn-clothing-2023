@@ -6,6 +6,7 @@ import CheckoutItem from "../../components/checkout-item/checkout-item.comp";
 import { CheckoutContainer, CheckoutHeader, CheckoutHeaderBlock, CheckoutTotal } from "./checkout.style";
 
 const Checkout = () => {
+  // Getting the CartItems list and the Total Price amount from the Cart Context
   const { cartItems, totalPrice } = useContext(CartContext);
 
   return (

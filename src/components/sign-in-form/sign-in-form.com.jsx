@@ -37,6 +37,7 @@ const SignInForm = () => {
 
     } catch (err) {
       switch (err.code) {
+        // Handle some possible errors we might get on fomr submit
         case "auth/wrong-password": console.log(`Incorrect password for ${email}`); break;
         case "auth/user-not-found": console.log("No user associated with this email"); break;
         default: console.log( err )

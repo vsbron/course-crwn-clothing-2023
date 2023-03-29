@@ -2,6 +2,8 @@ import CategoryItem from "../directory-item/directory-item.comp";
 
 import { CategoriesContainer } from "./directory.style";
 
+// Listing the details for our tiles on the home page.
+// These include the id, title, url of the image and the path it leads to
 const categories =[
   { id: 1, title: "Hats", imageUrl: "https://i.ibb.co/cvpntL1/hats.png", route: "shop/hats" },
   { id: 2, title: "Jackets", imageUrl: "https://i.ibb.co/px2tCc3/jackets.png", route: "shop/jackets" },

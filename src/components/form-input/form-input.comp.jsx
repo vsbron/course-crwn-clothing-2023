@@ -1,6 +1,7 @@
 import { FormInputLabel, FormInputContainer, FormGroup } from "./form-input.style";
 
 const FormInput = ( { label, ...otherProps } ) => {
+  
   return (
     <FormGroup>
 

@@ -53,6 +53,7 @@ export const CartContext = createContext({
   totalPrice: 0,
 })
 
+// Initializing the Action Types for the cart
 export const CART_ACTION_TYPES = {
   SET_CART_ITEM: "SET_CART_ITEM",
   SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
@@ -68,19 +69,24 @@ const INITIAL_STATE = {
 
 // Creating the reducer which takes the state and the action
 const cartReducer = ( state, action ) => {
-  const { type, payload } = action;
+  const { type, payload } = action;   // Destructuring the action to get the type String and the payload attribute
 
   switch( type ) {
+
+    // If adding new Cart item, returning all existing cart items and adding/updating the new one (payload)
     case CART_ACTION_TYPES.SET_CART_ITEM: 
       return {
         ...state,
         ...payload
       }
+      
+    // If opening/closing the cart, passing the existing attributes and then the updated boolean (payload)
     case CART_ACTION_TYPES.SET_IS_CART_OPEN:
       return { 
         ...state,
         isCartOpen: payload
       }
+
     default: throw new Error(`Unhandled type of ${type} in cartReducer`)
   }
 }
@@ -104,19 +110,19 @@ export const CartProvider = ( {children} ) => {
   
   // Method for updating the cart with new product
   const addItemToCart = ( productToAdd ) => {
-    const newCartItems = addCartItem ( cartItems, productToAdd );   // Adding the product to the array
+    const newCartItems = addCartItem ( cartItems, productToAdd );   // Adding the product to the array while using helper function
     updateCartItemsReducer(newCartItems);                           // Passing the new cart items to the Reducer
   }
 
   // Method for removing the product from cartItems
   const removeItemFromCart = ( cartItemToRemove ) => {
-    const newCartItems = removeCartItem ( cartItems, cartItemToRemove );  // Removing the product from the array
+    const newCartItems = removeCartItem ( cartItems, cartItemToRemove );  // Removing the product from the array while using helper function
     updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
   }
 
   // Method for removing the product from cartItems entirely
   const clearItemFromCart = ( cartItemToClear ) => {
-    const newCartItems = clearCartItem ( cartItems, cartItemToClear );    // Clearing the product from the array
+    const newCartItems = clearCartItem ( cartItems, cartItemToClear );    // Clearing the product from the array while using helper function
     updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
   }
 

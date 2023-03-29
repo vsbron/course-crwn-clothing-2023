@@ -42,7 +42,8 @@ export const UserProvider = ( { children } ) => {
     dispatch( createAction( USER_ACTION_TYPES.SET_CURRENT_USER, user));
   }
 
-  const value = { currentUser, setCurrentUser };    // Passing the state variables to the value that goes to the context provider
+  // Passing the state variables to the value that goes to the context provider
+  const value = { currentUser, setCurrentUser };    
 
   useEffect( () => {
     // Initiate the listener that will listen constantly for auth state change (Log in / Log out)
