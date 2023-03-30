@@ -53,13 +53,13 @@ export const CartContext = createContext({
   totalPrice: 0,
 })
 
-// Initializing the Action Types for the cart
+// REDUCER: Initializing the Action Types for the cart actions
 export const CART_ACTION_TYPES = {
   SET_CART_ITEM: "SET_CART_ITEM",
   SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
 }
 
-// Initial state of the variables we want to track with reducer
+// REDUCER: Setting the initial state for the cart variables
 const INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
@@ -67,72 +67,79 @@ const INITIAL_STATE = {
   totalPrice: 0,
 };
 
-// Creating the reducer which takes the state and the action
+// REDUCER: Creating the reducer which takes the state and the action
 const cartReducer = ( state, action ) => {
-  const { type, payload } = action;   // Destructuring the action to get the type String and the payload attribute
+
+  // Destructuring action to a type [string] and optional payload [anything]
+  const { type, payload } = action;
 
   switch( type ) {
 
-    // If adding new Cart item, returning all existing cart items and adding/updating the new one (payload)
-    case CART_ACTION_TYPES.SET_CART_ITEM: 
+    case CART_ACTION_TYPES.SET_CART_ITEM:       // If adding new Cart item
       return {
-        ...state,
-        ...payload
+        ...state,                               // Returns the object with all the previous cart itens
+        ...payload                              // Updating the modified one which is currentUser object
       }
       
-    // If opening/closing the cart, passing the existing attributes and then the updated boolean (payload)
-    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:    // If opening/closing the cart
       return { 
-        ...state,
-        isCartOpen: payload
+        ...state,                               // Return all the rest of variables in the state that don't change
+        isCartOpen: payload                     // Change isCartOpen to the boolean that was in the payload
       }
 
-    default: throw new Error(`Unhandled type of ${type} in cartReducer`)
+    // If no case matched - throw Error
+    default: throw new Error(`Unhandled type of ${type} in cartReducer`);
   }
 }
 
 // Creating provider for the Context
 export const CartProvider = ( {children} ) => {
 
-  const [ { cartItems, isCartOpen, cartCount, totalPrice }, dispatch ] = useReducer(cartReducer, INITIAL_STATE);   // Initializing useReducer
+  // Initialising the reducer with the useReducer hook that takes our reducer and the initial value of the state we initialized previously ()
+  const [ { cartItems, isCartOpen, cartCount, totalPrice }, dispatch ] = useReducer(cartReducer, INITIAL_STATE);   // We get back the current state (destructured) and the dispatch function
 
+  // Defining the function that will toggle the cart window. It takes the new boolean value
+  const setIsCartOpen = (boolean) => {
+    // Passing the action object to the dispatch function that will run it through the switch statement written above
+    dispatch( createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, boolean));
+  }
+
+  // Defining the function that will add the new item to the cart and update the overall cost and quantity. It takes the new cartItems array
   const updateCartItemsReducer = (newCartItems) =>{
     const newCartCount = newCartItems.reduce( (totalQuantity, cartItem ) => totalQuantity + cartItem.quantity, 0 );                // Using reduce method to count all quantites
     const newTotalPrice = newCartItems.reduce( (totalPrice, cartItem ) => totalPrice + cartItem.price * cartItem.quantity, 0 );    // Using reduce method to count all prices
     
-    dispatch(                         // Updating the state in reducer
+    // Passing the action object to the dispatch function that will run it through the switch statement written above
+    dispatch(
       createAction( CART_ACTION_TYPES.SET_CART_ITEM, {
         cartItems: newCartItems,      // Updaing the Cart items
         totalPrice: newTotalPrice,    // Updaing the Total price
         cartCount: newCartCount       // Updaing the Cart count
-      }))
+      })
+    )
   }
   
   // Method for updating the cart with new product
   const addItemToCart = ( productToAdd ) => {
-    const newCartItems = addCartItem ( cartItems, productToAdd );   // Adding the product to the array while using helper function
-    updateCartItemsReducer(newCartItems);                           // Passing the new cart items to the Reducer
+    const newCartItems = addCartItem( cartItems, productToAdd );          // Adding the product to the array while using helper function
+    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer function written above
   }
 
   // Method for removing the product from cartItems
   const removeItemFromCart = ( cartItemToRemove ) => {
-    const newCartItems = removeCartItem ( cartItems, cartItemToRemove );  // Removing the product from the array while using helper function
-    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
+    const newCartItems = removeCartItem( cartItems, cartItemToRemove );   // Removing the product from the array while using helper function
+    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer function written above
   }
 
   // Method for removing the product from cartItems entirely
   const clearItemFromCart = ( cartItemToClear ) => {
-    const newCartItems = clearCartItem ( cartItems, cartItemToClear );    // Clearing the product from the array while using helper function
-    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer
-  }
-
-  // Method for toggling the cart window
-  const setIsCartOpen = (boolean) => {
-    dispatch( createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN ,boolean));
+    const newCartItems = clearCartItem( cartItems, cartItemToClear );     // Clearing the product from the array while using helper function
+    updateCartItemsReducer(newCartItems);                                 // Passing the new cart items to the Reducer function written above
   }
 
   // Setting the value variables
   const value = { isCartOpen, setIsCartOpen, addItemToCart, removeItemFromCart, clearItemFromCart, cartItems, cartCount, totalPrice };
 
+  // Returning the context provider with the value that will be stored in the context with all the variables
   return <CartContext.Provider value={value}> { children } </CartContext.Provider>
 }

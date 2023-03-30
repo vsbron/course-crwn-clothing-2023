@@ -3,9 +3,10 @@ E-commerse project that was made as a part of React learning course in 2023. The
 
 ## Details
  - Styles were written in Sass, but then changed to Styled Components;
+ - Contexts were handled by useState and useEffect hooks inside React Concepts, but then changed to Reducers;
 
 ## Features
- - Navigation is built using React Router;
+ - Navigation (built using React Router);
  - Sign In and Sign Up with email and password;
  - Google authentication;
  - Firebase database;
