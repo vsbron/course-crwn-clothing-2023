@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCategoriesMap } from "../../store/categories/category.selector";
 
 import ProductCard from "../../components/product-card/product-card.comp";
-
-import { CategoriesContext } from "../../contexts/categories.context";
 
 import { CategoryTitle, CategoryContainer } from "./category.style"
 
@@ -12,8 +12,8 @@ const Category = () => {
   // Getting the category from URL using useParams hook
   const { category } = useParams();
 
-  // Destructuring categoriesMap from the Categories Context
-  const { categoriesMap } = useContext ( CategoriesContext );
+  // Getting the CategoriesMap data from the REDUX store
+  const categoriesMap = useSelector(selectCategoriesMap);
 
   // Creating products array and its setter using useState from the categoriesMap with the key of category we got rom URL
   const [ products, setProducts ] = useState( categoriesMap[category] );

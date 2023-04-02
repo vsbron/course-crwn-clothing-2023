@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer } from "react";
-
 import { createAction } from "../utils/reducer/reducer.utils";
 
 import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../utils/firebase/firebase.utils";
@@ -61,7 +60,7 @@ export const UserProvider = ( { children } ) => {
       setCurrentUser(user);                 // If not, set the new user (logged in or null)
     } );
     return unsubscribe                      // Unsubscribe the listener once the component unmounts
-  }, [] )
+  }, [] );
 
   // Returning the context provider with the value that will be stored in the context with all the variables
   return <UserContext.Provider value={ value }>{ children }</UserContext.Provider>
