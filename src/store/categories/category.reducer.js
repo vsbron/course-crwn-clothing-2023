@@ -1,7 +1,7 @@
 import { CATEGORIES_ACTION_TYPES } from "./category.types";
 
 export const CATEGORIES_INITIAL_STATE = { 
-  categoriesMap: {}
+  categories: [],
 }
 
 // REDUCER: Creating the reducer which takes the state and the action
@@ -14,9 +14,9 @@ export const categoriesReducer = ( state = CATEGORIES_INITIAL_STATE, action) => 
   
   // Using the switch statement to give deifferent outcomes based on the type we got from action object
   switch(type) {
-    case CATEGORIES_ACTION_TYPES.SET_CATEGORIES_MAP: return {
-      ...state,                 // Returns the object with all the previous values
-      categoriesMap: payload    // Updating the modified one which is categoriesMap object
+    case CATEGORIES_ACTION_TYPES.SET_CATEGORIES: return {
+      ...state,              // Returns the object with all the previous values
+      categories: payload    // Updating the modified one which is categories object
     };
 
     // *In REDUX, instead of throwing an Error by default we need to return the state.

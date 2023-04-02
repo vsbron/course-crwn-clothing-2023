@@ -49,14 +49,7 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef);                         // Generating a query for the collection
 
   const querySnapshot = await getDocs(q);                 // Getting the snapshot of documents that were fetched from collection
-  const categoryMap = querySnapshot.docs.reduce(          // Going through all of the documents using .reduce() method
-    ( acc, docSnapshot ) => {
-      const { title, items } = docSnapshot.data();        // Destructuring the title and the items from each snapshot
-      acc[title.toLowerCase()] = items;                   // Adding to the acc array with title works as a key, and items array work as a value
-      return acc;                                         // Returning the acc for the next iteration
-    }, {}
-  );
-  return categoryMap;   // Returning the final array as categoryMap
+  return querySnapshot.docs.map( (docSnapshot) => docSnapshot.data() );
 }
 
 // Creating an entry in the database from the logged user
