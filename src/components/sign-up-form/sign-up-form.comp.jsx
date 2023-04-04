@@ -5,7 +5,7 @@ import Button from "../button/button.comp";
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
-import {FormContainer} from "../sign-in-form/sign-in-form.style";
+import { FormContainer } from "../sign-in-form/sign-in-form.style";
 
 // Initializing the default (empty) input fields values
 const defaultFormFields = {

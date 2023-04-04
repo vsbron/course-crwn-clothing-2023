@@ -7,7 +7,7 @@ export const CATEGORIES_INITIAL_STATE = {
 // REDUCER: Creating the reducer which takes the state and the action
 // State is used is when you need to keep track of previous values and increment/decrement something for example
 // *In REDUX we need to initiate the state because originally it took it from useReducer hook that we don't have here
-export const categoriesReducer = ( state = CATEGORIES_INITIAL_STATE, action) => {
+export const categoriesReducer = ( state = CATEGORIES_INITIAL_STATE, action = {}) => {
 
   // Destructuring action to a type [string] and optional payload [anything]
   const { type, payload } = action;

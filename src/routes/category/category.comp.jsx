@@ -12,7 +12,7 @@ const Category = () => {
   // Getting the category from URL using useParams hook
   const { category } = useParams();
 
-  // Getting the CategoriesMap data from the REDUX store
+  // Getting the CategoriesMap data from the REDUX
   const categoriesMap = useSelector(selectCategoriesMap);
 
   // Creating products array and its setter using useState from the categoriesMap with the key of category we got rom URL

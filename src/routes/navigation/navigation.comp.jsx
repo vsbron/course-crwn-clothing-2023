@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import CartIcon from "../../components/cart-icon/cart-icon.comp";
@@ -15,9 +15,8 @@ import { LogoContainer, NavigationContainer, NavLinks } from "./navigation.style
 
 const Navigation = () => {
 
-  // const { currentUser } = useContext(UserContext);
-  const currentUser = useSelector(selectCurrentUser);    // Getting the currentUser from REDUX store state
-  const { isCartOpen } = useContext(CartContext);     // Destructuring the boolean for openeed cart menu
+  const currentUser = useSelector(selectCurrentUser);   // Getting the currentUser from REDUX
+  const { isCartOpen } = useContext(CartContext);       // Destructuring the boolean for openeed cart menu
 
   return (
     <Fragment>

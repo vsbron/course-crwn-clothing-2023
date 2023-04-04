@@ -6,7 +6,7 @@ import CategoryPreview from "../../components/category-preview/category-preview.
 
 const CategoriesPreview = () => {
 
-  // Getting the CategoriesMap data from the REDUX store
+  // Getting the CategoriesMap data from the REDUX
   const categoriesMap = useSelector(selectCategoriesMap);
 
   return (

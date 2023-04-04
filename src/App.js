@@ -14,7 +14,7 @@ import { setCurrentUser } from "./store/user/user.action";
 
 const App = () => {
 
-  // Getting the dispatch method for the REDUX
+  // Getting the dispatch method for the REDUX from the useDispacth hook
   const dispatch = useDispatch();
 
   useEffect( () => {
@@ -23,7 +23,7 @@ const App = () => {
       if (user) {
         createUserDocumentFromAuth(user);   // Create the user document if user logged in
       };
-      dispatch(setCurrentUser(user));       // If not, set the new user (logged in or null)
+      dispatch(setCurrentUser(user));       // If not, set the new user (logged in or null) in the REDUX using dispatch method
     } );
     return unsubscribe                      // Unsubscribe the listener once the component unmounts
   }, [] )

@@ -77,7 +77,7 @@ const cartReducer = ( state, action ) => {
 
     case CART_ACTION_TYPES.SET_CART_ITEM:       // If adding new Cart item
       return {
-        ...state,                               // Returns the object with all the previous cart itens
+        ...state,                               // Returns the object with all the previous cart items
         ...payload                              // Updating the modified one which is currentUser object
       }
       

@@ -13,7 +13,7 @@ const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect( () => {
-    // Method for getting the categories from the firebase and settint the categories map to the REDUX store
+    // Method for getting the categories from the firebase and dispatching the categories map to the REDUX 
     const getCategoriesMap = async() => {
       const categoriesArray = await getCategoriesAndDocuments('categories');
       dispatch(setCategories(categoriesArray));

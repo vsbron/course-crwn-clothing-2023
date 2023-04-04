@@ -1,3 +1,9 @@
+///////////////////////////////////////////////
+//// NOT USED ANYMORE - KEPT FOR REFERENCE ////
+///////////////////////////////////////////////
+// Used later by importing the useState hook //
+///////////////////////////////////////////////
+
 import { createContext, useState, useEffect } from "react";
 
 import { addCollectionAndDocuments, getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
@@ -14,7 +20,7 @@ export const CategoriesProvider = ( {children} ) => {
 
   const [ categoriesMap, setCategoriesMap ] = useState( {} );
 
-  // Getting the data from he Firebase database
+  // Getting the data from the Firebase database
   useEffect( () => {
     const getCategories = async() => {
       const categoryMap = await getCategoriesAndDocuments();
