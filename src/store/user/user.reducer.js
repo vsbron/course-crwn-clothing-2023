@@ -13,7 +13,7 @@ export const userReducer = ( state = INITIAL_STATE, action ) => {
   // Destructuring action to a type [string] and optional payload [anything]
   const { type, payload } = action;
 
-  // Using the switch statement to give deifferent outcomes based on the type we got from action object
+  // Using the switch statement to give different outcomes based on the type we got from action object
   switch(type) {
     case USER_ACTION_TYPES.SET_CURRENT_USER: return {
       ...state,                 // Returns the object with all the previous values

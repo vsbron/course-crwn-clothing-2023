@@ -1,7 +1,7 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { CartContext } from "../../contexts/cart.context";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import Button from "../button/button.comp";
 import CartItem from "../cart-item/cart-item.comp";
@@ -10,8 +10,8 @@ import { CartDropdownContainer, CartDropdownItems, EmptyMessage } from "./cart-d
 
 const CartDropdown = () => {
 
-  // Getting the current cartItems array from the Context
-  const { cartItems } = useContext(CartContext);
+  // Getting the current cartItems array from REDUX
+  const cartItems = useSelector(selectCartItems);
 
   const navigate = useNavigate();                             // useNavigate hook for linking the button
   const goToCheckoutHandler = () => navigate("/checkout");    // Button onClick handler that provides the link

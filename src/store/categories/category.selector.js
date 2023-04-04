@@ -4,7 +4,7 @@ import { createSelector } from "reselect";    // Importing createSelector that w
 //// Prevents the function from running again if its attributes are the same as on previous run
 
 // Pulling the categories reducer from the REDUX state
-const selectCategoryReducer = (state) => state.categories;
+const selectCategoryReducer = state => state.categories;
 
 // Creating memoize selector that uses createSelector method and takes 2 arguments: Input selector and output selector
 export const selectCategories = createSelector(

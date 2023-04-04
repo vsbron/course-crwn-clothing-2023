@@ -2,8 +2,8 @@
 E-commerse project that was made as a part of React learning course in 2023. The project was built using React and Sass frameworks with slight improvements.
 
 ## Details
- - Styles were written in Sass, but then changed to Styled Components;
- - Contexts were handled by useState and useEffect hooks inside React Concepts, but then changed to Reducers;
+ - Styles were written in Styled Components (previously Sass was used);
+ - Context was made using Redux (previously Context API with Reducers was used);
 
 ## Features
  - Navigation (built using React Router);

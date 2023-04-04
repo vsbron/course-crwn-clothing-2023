@@ -1,3 +1,9 @@
+///////////////////////////////////////////////
+//// NOT USED ANYMORE - KEPT FOR REFERENCE ////
+///////////////////////////////////////////////
+// Used later by importing the useState hook //
+///////////////////////////////////////////////
+
 import { createContext, useReducer } from "react";
 
 import { createAction } from "../utils/reducer/reducer.utils";
