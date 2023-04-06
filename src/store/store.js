@@ -7,7 +7,7 @@
 // Importing createStore separately, since it's deprecated and it is advised to use configureStore from @reduxjs/toolkit package
 import { legacy_createStore as createStore } from 'redux';
 import { compose, applyMiddleware} from "redux";
-// import logger from "redux-logger";
+import logger from "redux-logger";
 
 // Importing libraries for Persist
 import { persistStore, persistReducer } from "redux-persist";
@@ -15,21 +15,6 @@ import storage from 'redux-persist/lib/storage';
 
 // Importing root reducer that contains all of the smaller reducers
 import { rootReducer } from "./root-reducer";
-
-// Creating a custom middleWare
-const loggerMiddleware = (store) => (next) => (action) => {
-
-  // Guard clause. If there's no action type pass the action
-  if(!action.type) { return next() }
-
-  console.log("type: ", action.type);                 // Logs the type of the action
-  console.log("payload: ", action.payload);           // Logs thew payload of the action
-  console.log("currentState: ", store.getState());    // Logs the currentState
-
-  next(action);                                       // Passing the action on
-
-  console.log("nextState: ", store.getState());       // Logs the nextState (will run after all the loggers and reducers, because it's syncronous)
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Persist - ability to store some data in users localStore storage (like cart items, etc)
@@ -44,10 +29,15 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Creating middleWares. It is kind of library helpers that catch the action before hits the reducer and logs the state
-const middleWares = [loggerMiddleware];
+// Adding statement for it to run only when NOT in production mode. And filtering it to be empty array instead of false
+const middleWares = [process.env.NODE_ENV !== "production" && logger].filter(Boolean);
+
+
+// Rewriting the compose function from "redux" to support Redux DevTools extension
+const composedEnhancer = (process.env.NODE_ENV !== "production" && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 // In order for middleWares to work we have to call applyMiddleware inside the compose function
-const composedEnhancers = compose(applyMiddleware(...middleWares));
+const composedEnhancers = composedEnhancer(applyMiddleware(...middleWares));
 
 // Creating the store that will hold the root reducer with all other reducers. Using createStore method that takes 3 arguments.
 // 1st is necessary and it is root-reducer. In our case it's persistedReducer that contains the root-reducer already
