@@ -26,3 +26,10 @@ export const selectCategoriesMap = createSelector(    // Using createSelect agai
     }, {}));
 
 // As a result of all code above - as long as state.categories is the same object app won't re-render the categories
+
+// Memoize selector of the Spinner
+// Used when REDUX-Thunk is fetching the data
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],                            // Input - the slice that has the argument that we need in output 
+  ( categoriesSlice ) => categoriesSlice.isLoading    // Output - the isLoading variable from categories slice
+);

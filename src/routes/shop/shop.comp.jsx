@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils.js";
 
-import { setCategories } from "../../store/categories/category.action.js";
+import { fetchCategoriesAsync } from "../../store/categories/category.action.js";
 import CategoriesPreview from "../categories-preview/categories-preview.comp";
 import Category from "../category/category.comp";
 
@@ -13,15 +12,10 @@ const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect( () => {
-    // Method for getting the categories from the firebase and dispatching the categories map to the REDUX 
-    const getCategoriesMap = async() => {
-      const categoriesArray = await getCategoriesAndDocuments('categories');
-      dispatch(setCategories(categoriesArray));
-    }
-
-    // Calling the method
-    getCategoriesMap();
-  }, [])
+    // Method for getting the categories from the firebase and dispatching the categories map to the REDUX
+    // Dispatching the REDUX-Thunk function
+    dispatch( fetchCategoriesAsync() );
+  }, []);
 
   return (
     <Routes>

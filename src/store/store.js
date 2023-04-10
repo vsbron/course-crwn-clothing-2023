@@ -7,7 +7,9 @@
 // Importing createStore separately, since it's deprecated and it is advised to use configureStore from @reduxjs/toolkit package
 import { legacy_createStore as createStore } from 'redux';
 import { compose, applyMiddleware} from "redux";
-import logger from "redux-logger";
+
+import logger from "redux-logger";    // Importing logger
+import thunk from "redux-thunk";      // Importing REDUX-Thunk
 
 // Importing libraries for Persist
 import { persistStore, persistReducer } from "redux-persist";
@@ -23,20 +25,21 @@ import { rootReducer } from "./root-reducer";
 const persistConfig = {
   key: "root",            // Part we want to start with. Root means persist whole thing
   storage,                // Place to store the data into (storage sets localStorage by default)
-  blacklist: ["user"],    // Arrays of reducers we don't want to persist (user reducer in this case)
+  whitelist: ["cart"],    // Arrays of reducers we always want to persist (cart reducer in this case)
 };
 
+// Creating the new reducer that contains the root reducer and the config file we made
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Creating middleWares. It is kind of library helpers that catch the action before hits the reducer and logs the state
 // Adding statement for it to run only when NOT in production mode. And filtering it to be empty array instead of false
-const middleWares = [process.env.NODE_ENV !== "production" && logger].filter(Boolean);
-
+// Also, adding the thunk in the array
+const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(Boolean);
 
 // Rewriting the compose function from "redux" to support Redux DevTools extension
 const composedEnhancer = (process.env.NODE_ENV !== "production" && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-// In order for middleWares to work we have to call applyMiddleware inside the compose function
+// In order for middleWares to work we have to call applyMiddleware inside the (rewritten) compose function
 const composedEnhancers = composedEnhancer(applyMiddleware(...middleWares));
 
 // Creating the store that will hold the root reducer with all other reducers. Using createStore method that takes 3 arguments.

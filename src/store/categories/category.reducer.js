@@ -1,7 +1,9 @@
 import { CATEGORIES_ACTION_TYPES } from "./category.types";
 
 export const CATEGORIES_INITIAL_STATE = { 
-  categories: [],
+  categories: [],     // Categories array
+  isLoading: false,   // isLoading state
+  error: null,        // Error message
 }
 
 // REDUCER: Creating the reducer which takes the state and the action
@@ -14,9 +16,25 @@ export const categoriesReducer = ( state = CATEGORIES_INITIAL_STATE, action = {}
   
   // Using the switch statement to give different outcomes based on the type we got from action object
   switch(type) {
-    case CATEGORIES_ACTION_TYPES.SET_CATEGORIES: return {
-      ...state,              // Returns the object with all the previous values
-      categories: payload    // Updating the modified one which is categories object
+
+    // Fetching process has started
+    case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START: return {
+      ...state,               // Return the object with all previous values
+      isLoading: true,        // Set isLoading state to true
+    };
+
+    // Fetching process completed successfully
+    case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS: return {
+      ...state,               // Returns the object with all the previous values
+      categories: payload,    // Updating the modified one which is categories object
+      isLoading: false,       // Set isLoading state to false
+    };
+
+    // Fetching process failed
+    case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED: return {
+      ...state,               // Returns the object with all the previous values
+      error: payload,         // Set the payload to the error variable
+      isLoading: false,       // Set isLoading state to false
     };
 
     // *In REDUX, instead of throwing an Error by default we need to return the state.
