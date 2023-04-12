@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.comp";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.comp";
 
-import { signInWithGooglePopup, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
 
 import { FormContainer, FormBtnsContainer } from "./sign-in-form.style";
 
@@ -15,6 +16,9 @@ const defaultFormFields = {
 
 const SignInForm = () => {
 
+  // Getting the dispatch method for the REDUX
+  const dispatch = useDispatch();
+
   // Creating state for the form fields values
   const [ formFields, setFormFiellds ] = useState(defaultFormFields);
   const { email, password } = formFields;
@@ -23,7 +27,8 @@ const SignInForm = () => {
   const resetFormFields = () => setFormFiellds(defaultFormFields);
   
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();   // Get the user data from authentication
+    dispatch(googleSignInStart());      // Get the user data from authentication (REDUX-Saga)
+    // await signInWithGooglePopup();   // Get the user data from authentication
   }
 
   // Handler method for form submit
@@ -32,12 +37,12 @@ const SignInForm = () => {
 
     try {
       // See if we authenticated user with email and password
-      await signInUserWithEmailAndPassword( email, password );
+      dispatch( emailSignInStart( email, password ) );
       resetFormFields();
 
     } catch (err) {
       switch (err.code) {
-        // Handle some possible errors we might get on fomr submit
+        // Handle some possible errors we might get on form submit
         case "auth/wrong-password": console.log(`Incorrect password for ${email}`); break;
         case "auth/user-not-found": console.log("No user associated with this email"); break;
         default: console.log( err )

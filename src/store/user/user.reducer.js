@@ -1,8 +1,10 @@
 import { USER_ACTION_TYPES } from "./user.types";
 
-// REDUCER: Setting the initial state for the current user (null)
+// REDUCER: Setting the initial state for the current user (null), isLoading (false) and error (null)
 const INITIAL_STATE = {
-  currentUser: null
+  currentUser: null,
+  isLoading: false,
+  error: null,
 };
 
 // REDUCER: Creating the reducer which takes the state and the action
@@ -15,9 +17,18 @@ export const userReducer = ( state = INITIAL_STATE, action ) => {
 
   // Using the switch statement to give different outcomes based on the type we got from action object
   switch(type) {
-    case USER_ACTION_TYPES.SET_CURRENT_USER: return {
+    case USER_ACTION_TYPES.SIGN_IN_SUCCESS: return {    // If success
       ...state,                 // Returns the object with all the previous values
       currentUser: payload }    // Updating the modified one which is currentUser object
+
+    case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:            // If sign out successes
+      return { ...state, currentUser: null };           // set the currentUser to null
+
+    case USER_ACTION_TYPES.SIGN_OUT_FAILED:             // If Sign Out failed
+    case USER_ACTION_TYPES.SIGN_IN_FAILED:              // If Sign In failed
+    case USER_ACTION_TYPES.SIGN_UP_FAILED: return {     // If Sign Up failed
+      ...state,                 // Returns the object with all the previous values
+      error: payload }          // Updating the modified one which is error message
 
     // *In REDUX, instead of throwing an Error by default we need to return the state.
     // Because there's one dispatch for all reducers, it can match the case in different reducer

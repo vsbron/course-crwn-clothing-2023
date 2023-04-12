@@ -9,7 +9,11 @@ import { legacy_createStore as createStore } from 'redux';
 import { compose, applyMiddleware} from "redux";
 
 import logger from "redux-logger";    // Importing logger
-import thunk from "redux-thunk";      // Importing REDUX-Thunk
+// import thunk from "redux-thunk";   // Importing REDUX-Thunk
+
+// REDUX-Saga imports
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./root-saga";
 
 // Importing libraries for Persist
 import { persistStore, persistReducer } from "redux-persist";
@@ -28,13 +32,19 @@ const persistConfig = {
   whitelist: ["cart"],    // Arrays of reducers we always want to persist (cart reducer in this case)
 };
 
+// Creating the saga middleware
+const sagaMiddleware = createSagaMiddleware();
+
 // Creating the new reducer that contains the root reducer and the config file we made
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Creating middleWares. It is kind of library helpers that catch the action before hits the reducer and logs the state
 // Adding statement for it to run only when NOT in production mode. And filtering it to be empty array instead of false
-// Also, adding the thunk in the array
-const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(Boolean);
+
+// // Also, adding the saga in the array
+const middleWares = [process.env.NODE_ENV !== "production" && logger, sagaMiddleware].filter(Boolean);
+// // Alternatively, adding the thunk in the array
+// const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(Boolean);
 
 // Rewriting the compose function from "redux" to support Redux DevTools extension
 const composedEnhancer = (process.env.NODE_ENV !== "production" && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
@@ -47,6 +57,9 @@ const composedEnhancers = composedEnhancer(applyMiddleware(...middleWares));
 // 2nd argument is for additional default states. 3rd argument is composedEnhancers that was declared above and holds the logger.
 // Logger allows us to see what the state looks like before an action is dispatched, what the action is and how the state in turn looks after.
 export const store = createStore( persistedReducer, undefined, composedEnhancers );
+
+// Running the REDUX-Saga while passing the imported root saga
+sagaMiddleware.run(rootSaga);
 
 // Persistor object (need for index.js)
 export const persistor = persistStore( store );

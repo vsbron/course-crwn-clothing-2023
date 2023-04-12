@@ -1,7 +1,7 @@
 import { CATEGORIES_ACTION_TYPES } from "./category.types";
 import { createAction } from "../../utils/reducer/reducer.utils";
 
-import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
+// import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
 
 // REDUX-Thunk
 // Allows us to pass functions as actions in the asyncronous way.
@@ -12,16 +12,16 @@ export const fetchCategoriesSuccess = (categoriesArray) => createAction( CATEGOR
 
 export const fetchCategoriesFailed = (err) => createAction( CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED, err );
 
-// REDUX-thunk async function
-export const fetchCategoriesAsync = () => async ( dispatch ) => {
-  // Calling fetch start action when the process starts
-  dispatch( fetchCategoriesStart() );
-  try{
-    const categoriesArray = await getCategoriesAndDocuments('categories');
-    dispatch( fetchCategoriesSuccess( categoriesArray ) );
-  } catch (err) {
-    // If fails, calling fetch failed and passing the error to it
-    dispatch( fetchCategoriesFailed( err ) );
-  }
+// // REDUX-thunk async function
+// export const fetchCategoriesAsync = () => async ( dispatch ) => {
+//   // Calling fetch start action when the process starts
+//   dispatch( fetchCategoriesStart() );
+//   try{
+//     const categoriesArray = await getCategoriesAndDocuments('categories');
+//     dispatch( fetchCategoriesSuccess( categoriesArray ) );
+//   } catch (err) {
+//     // If fails, calling fetch failed and passing the error to it
+//     dispatch( fetchCategoriesFailed( err ) );
+//   }
 
-}
+// }

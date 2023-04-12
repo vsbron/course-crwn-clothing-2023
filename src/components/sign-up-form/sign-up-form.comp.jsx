@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.comp";
 import Button from "../button/button.comp";
+import { signUpStart } from "../../store/user/user.action";
 
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+// import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
 import { FormContainer } from "../sign-in-form/sign-in-form.style";
 
@@ -17,6 +19,9 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
 
+  // Getting the dispatch method for the REDUX
+  const dispatch = useDispatch();
+
   // Creating state for the form fields values
   const [ formFields, setFormFiellds ] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
@@ -27,16 +32,20 @@ const SignUpForm = () => {
   // Handler method for form submit
   const handleSubmit = async (e) => {
     e.preventDefault();   // Preventing default behaviour
-
+    
+    // Make sure passwords match
+    if( password !== confirmPassword) throw Error ("Passwords do not match");
+    
     try {
-      // Make sure passwords match
-      if( password !== confirmPassword) throw Error ("Passwords do not match");
 
-      // See if we successfully created user with email and password
-      const { user } = await createAuthUserWithEmailAndPassword( email, password );
+      //// Old way, before REDUX-Saga
+      // // See if we successfully created user with email and password
+      // const { user } = await createAuthUserWithEmailAndPassword( email, password );
 
-      // Create a user document from what is returns
-      await createUserDocumentFromAuth( user, { displayName } );
+      // // Create a user document from what is returns
+      // await createUserDocumentFromAuth( user, { displayName } );
+
+      dispatch( signUpStart( email, password, displayName ));
 
       // Clear input fields
       resetFormFields();

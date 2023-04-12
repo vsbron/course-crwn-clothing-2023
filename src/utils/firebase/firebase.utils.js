@@ -77,8 +77,8 @@ export const createUserDocumentFromAuth = async ( userAuth, additionalInfo = {} 
     }
   }
 
-  // If does, return userDocRef
-  return userDocRef;
+  // If does, return userSnapshot
+  return userSnapshot;
 };
 
 //////////////////////////
@@ -102,3 +102,11 @@ export const signOutUser = async () => await signOut(auth);
 
 // Listener for the Auth State change. Gets the callback that will be executed on change
 export const onAuthStateChangedListener = ( callback ) => onAuthStateChanged( auth, callback );
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth, (userAuth) => { unsubscribe(); resolve(userAuth); }, reject
+    )
+  });
+};
