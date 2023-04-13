@@ -7,9 +7,14 @@ import { Provider } from "react-redux";             // Provider of the Redux (ne
 // It can also be added loading={} attribute, and pass the element that will be shown while Gate is pulling Persist
 import { PersistGate } from 'redux-persist/integration/react';
 
-import App from './App';                      // App.js that contains the routes
-import { store } from "./store/store";        // Redux Store object that holds the root-reducer (for the Provider)
-import { persistor } from "./store/store";    // Persistor object that also holds the root-reducer (for the PersistGate)
+// Stripe
+// The provider for Stripe. Anything wrapped in it has access to the Stripe elements
+import { Elements } from "@stripe/react-stripe-js";
+
+import App from './App';                                        // App.js that contains the routes
+import { store } from "./store/store";                          // Redux Store object that holds the root-reducer (for the Provider)
+import { persistor } from "./store/store";                      // Persistor object that also holds the root-reducer (for the PersistGate)
+import { stripePromise } from './utils/stripe/stripe.utils';    // Stripe object (for the Elements)
 
 import './index.scss';                        // Main style file
 
@@ -18,7 +23,9 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>   
         <BrowserRouter>
-          <App />
+          <Elements stripe={stripePromise}>
+            <App />
+          </Elements>
         </BrowserRouter>
       </PersistGate>
     </Provider>

@@ -6,6 +6,7 @@ E-commerse project that was made as a part of React learning course in 2023. The
  - Sign In and Sign Up with email and password;
  - Google authentication;
  - Firebase database;
+ - Payment imitation with Stripe;
 
 ## Details
  - Styles were written in Styled Components (previously Sass was used);
@@ -15,7 +16,7 @@ E-commerse project that was made as a part of React learning course in 2023. The
  - Supports Redux Persist;
  - Supports Redux Logger (Not in Production mode);
  - Supports Redux DevTools (Not in Production mode);
- - Fetching of data is done with Redux-Thunk;
+ - Fetching of data is done with Redux-Saga (previously Redux-Thunk was used);
 
 ## Live version
 https://vsbron-course-crwn-clothing-2023.netlify.app/
